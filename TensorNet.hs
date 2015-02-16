@@ -1,3 +1,17 @@
+module TensorNet
+( TN(..),
+  tn,
+  merge,
+  stochasticity,
+  ptn,
+  update,
+  updateAll,
+  stochList,
+  closeEdges
+)
+
+where
+
 import qualified Data.Set as Set
 import Control.Exception (assert)
 import Debug.Trace
@@ -46,19 +60,19 @@ merge (TN n a s e) v1 v2 = assert valid $
                 out = TN (n-1) a' s' e'
             in out --assert tn out $ out
     where valid = tn (TN n a s e) && any (== v1) [1..n] && any (== v2) [1..n] && v1 < v2
-
+    
 stochasticity :: TN -> [Set.Set (Set.Set Int)] -> Set.Set (Set.Set Int)
 stochasticity (TN 1 arity sz e) [stoch] = assert (tn (TN 1 arity sz e)) $ stoch
 stochasticity (TN n arity sz e) stoch = let t = Set.map (\(_,w,_,_) -> w) (Set.filter (\(v1,_,v2,_) -> v1==1 && v2==2) $ e) -- contraction ways for vertex 1
                                             v = Set.map (\(_,w,_,_) -> w) (Set.filter (\(v1,_,v2,_) -> v1==2 && v2==1) $ e) -- contraction ways for vertex 2
-                                            sPairs = [(Set.difference sa t,Set.difference sb v) | sa <- Set.toList (stoch!!0), sb <- Set.toList (stoch!!1),
-                                                                                                  Set.null (Set.intersection sa t),
-                                                                                                  Set.isSubsetOf v sb]
-                                                  ++ [(Set.difference sa t,Set.difference sb v) | sa <- Set.toList (stoch!!0), sb <- Set.toList (stoch!!1),
-                                                                                                  Set.isSubsetOf t sa,
-                                                                                                  Set.null (Set.intersection sb v)]
-                                            mergedStoch = Set.fromList [Set.union (updateAll sa t 0)
-                                                                                  (updateAll sb v ((arity!!0) - Set.size t))
+                                            aIdxSet = Set.fromList [1..arity!!0]
+                                            bIdxSet = Set.fromList [1..arity!!1]
+                                            cIdxSet = Set.fromList [1..(arity!!0 + arity!!1 - 2 * Set.size t)]
+                                            sPairs = [(Set.difference aIdxSet sa, Set.difference bIdxSet sb) | sa <- Set.toList (stoch!!0), sb <- Set.toList (stoch!!1),
+                                                                (Set.null (Set.intersection sa t) || Set.null (Set.intersection sb v))]
+                                                                                       
+                                            mergedStoch = Set.fromList [Set.difference cIdxSet (Set.union (updateAll sa t 0)
+                                                                                  (updateAll sb v ((arity!!0) - Set.size t)))
                                                                                   | (sa,sb) <- sPairs]
                                             restStoch = (drop 2 stoch)
                                         in  assert valid $ (stochasticity (merge struct 1 2) (mergedStoch:restStoch))
@@ -67,3 +81,9 @@ stochasticity (TN n arity sz e) stoch = let t = Set.map (\(_,w,_,_) -> w) (Set.f
     
 ptn :: TN -> [Set.Set (Set.Set Int)] -> Bool
 ptn struct stoch = (stochasticity struct stoch) == Set.fromList [Set.fromList []]
+
+closeEdges :: [(Int, Int, Int, Int)] -> Set.Set (Int, Int, Int, Int)
+closeEdges e = Set.union (Set.fromList [(v2,w2,v1,w1) | (v1,w1,v2,w2) <- e]) (Set.fromList e)
+
+stochList :: [[[Int]]] -> [Set.Set (Set.Set Int)]
+stochList s = [Set.fromList [Set.fromList stoch | stoch <- ss] | ss <- s]
