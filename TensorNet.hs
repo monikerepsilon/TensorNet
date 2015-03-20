@@ -13,6 +13,8 @@ module TensorNet
 where
 
 import qualified Data.Set as Set
+import Data.Maybe
+import Data.List
 import Control.Exception (assert)
 import Debug.Trace
 
@@ -78,7 +80,37 @@ stochasticity (TN n arity sz e) stoch = let t = Set.map (\(_,w,_,_) -> w) (Set.f
                                         in  assert valid $ (stochasticity (merge struct 1 2) (mergedStoch:restStoch))
                                         where struct = (TN n arity sz e)
                                               valid = n >= 2 && tn struct && (all (\(a, s) -> Set.fold (\s1 s2 -> (Set.fold (\s3 s4 -> ((s3 <= a && s3 > 0) && s4)) True s1) && s2 ) True s) (zip arity stoch) )
-    
+
+applyToSet :: (Int -> Int) -> ((Set.Set Int) -> (Set.Set Int))
+applyToSet f = Set.map f
+
+contractionList :: [Int] -> [Int] -> Int -> [Int]
+contractionList [] t offset = []
+contractionList (r:range) t offset =   if (elem r t)
+                                       then (((fromJust $ elemIndex r t) + offset):(contractionList range))
+                                       else (r:(contractionList range t offset))
+ 
+contractionMap :: [Int] -> [Int] -> Int -> ((Set.Set Int) -> (Set.Set Int))
+contractionMap range t offset = applyToSet ((!!) (contractionList range t offset) . (+ (-1)))
+ 
+lstoch :: TN -> [Set.Set (Set.Set Int, Set.Set Int)] -> Set.Set(Set.Set Int, Set.Set Int)
+lstoch (TN 1 arity sz e) [ls] = assert (tn (TN 1 arity sz e)) $ ls
+lstoch (TN n arity sz e) ls = let cidx = Set.toList (Set.map (\(_,w1,_,w2) -> (w1,w2)) (Set.filter (\(v1,_,v2,_) -> v1==1 && v2==2) $ e)) -- contraction ways
+                                  t = [w | (w,_) <- cidx]
+                                  v = [w | (_,w) <- cidx]
+                                  tSet = Set.fromList t
+                                  vSet = Set.fromList v
+                                  aIdxSet = Set.fromList [1..arity!!0]
+                                  bIdxSet = Set.fromList [1..arity!!1]
+                                  alpha = contractionMap [1..arity!!0] t (1 + (arity!!0) + (arity!!1) - 2 * (length t))
+                                  beta = contractionMap [1..arity!!1] v (1 + (arity!!0) + (arity!!1) - 2 * (length t))
+                                  sPairs = [((sa,ra), (sb,rb)) | (sa,ra) <- Set.toList (ls!!0), (sb,rb) <- Set.toList (ls!!1),
+                                             let raBar = Set.difference aIdxSet ra
+                                                 rbBar = Set.difference bIdxSet rb
+                                             in  ((Set.null (Set.intersection sa (tSet))) && (Set.null (Set.intersection (beta sb) (alpha raBar)) ) && (Set.isSubsetOf sb vSet) && (Set.null (Set.intersection (alpha raBar) (beta rbBar))) ) ||
+                                                 (False)]
+                                  in lstoch (TN n arity sz e) (tail ls)
+                                              
 ptn :: TN -> [Set.Set (Set.Set Int)] -> Bool
 ptn struct stoch = (stochasticity struct stoch) == Set.fromList [Set.fromList []]
 
