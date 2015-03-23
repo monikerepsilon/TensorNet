@@ -7,7 +7,9 @@ module TensorNet
   update,
   updateAll,
   stochList,
-  closeEdges
+  closeEdges,
+  lstoch,
+  stochToLStoch
 )
 
 where
@@ -79,43 +81,60 @@ stochasticity (TN n arity sz e) stoch = let t = Set.map (\(_,w,_,_) -> w) (Set.f
                                             restStoch = (drop 2 stoch)
                                         in  assert valid $ (stochasticity (merge struct 1 2) (mergedStoch:restStoch))
                                         where struct = (TN n arity sz e)
-                                              valid = n >= 2 && tn struct && (all (\(a, s) -> Set.fold (\s1 s2 -> (Set.fold (\s3 s4 -> ((s3 <= a && s3 > 0) && s4)) True s1) && s2 ) True s) (zip arity stoch) )
+                                              valid = n >= 2 && tn struct && (all (\(a, s) -> Set.fold (\s1 s2 -> (Set.fold (\s3 s4 -> ((s3 <= a && s3 > 0) && s4)) True s1) && s2 ) True s) (zip arity stoch) ) -- valid TN, stoch constraints respect arity at each node
 
 applyToSet :: (Int -> Int) -> ((Set.Set Int) -> (Set.Set Int))
 applyToSet f = Set.map f
 
-contractionList :: [Int] -> [Int] -> Int -> [Int]
-contractionList [] t offset = []
-contractionList (r:range) t offset =   if (elem r t)
-                                       then (((fromJust $ elemIndex r t) + offset):(contractionList range))
-                                       else (r:(contractionList range t offset))
+contractionList :: [Int] -> [Int] -> [Int] -> Int -> [Int]
+contractionList [] next t offset = []
+contractionList (r:range) next t offset =   if (elem r t)
+                                            then (((fromJust $ elemIndex r t) + offset):(contractionList range next t offset))
+                                            else ((head next):(contractionList range (tail next) t offset))
  
 contractionMap :: [Int] -> [Int] -> Int -> ((Set.Set Int) -> (Set.Set Int))
-contractionMap range t offset = applyToSet ((!!) (contractionList range t offset) . (+ (-1)))
+contractionMap range t offset = applyToSet ((!!) (contractionList range range t offset) . (+ (-1)))
  
 lstoch :: TN -> [Set.Set (Set.Set Int, Set.Set Int)] -> Set.Set(Set.Set Int, Set.Set Int)
 lstoch (TN 1 arity sz e) [ls] = assert (tn (TN 1 arity sz e)) $ ls
-lstoch (TN n arity sz e) ls = let cidx = Set.toList (Set.map (\(_,w1,_,w2) -> (w1,w2)) (Set.filter (\(v1,_,v2,_) -> v1==1 && v2==2) $ e)) -- contraction ways
-                                  t = [w | (w,_) <- cidx]
-                                  v = [w | (_,w) <- cidx]
-                                  tSet = Set.fromList t
-                                  vSet = Set.fromList v
-                                  aIdxSet = Set.fromList [1..arity!!0]
-                                  bIdxSet = Set.fromList [1..arity!!1]
-                                  alpha = contractionMap [1..arity!!0] t (1 + (arity!!0) + (arity!!1) - 2 * (length t))
-                                  beta = contractionMap [1..arity!!1] v (1 + (arity!!0) + (arity!!1) - 2 * (length t))
-                                  sPairs = [((sa,ra), (sb,rb)) | (sa,ra) <- Set.toList (ls!!0), (sb,rb) <- Set.toList (ls!!1),
-                                             let raBar = Set.difference aIdxSet ra
-                                                 rbBar = Set.difference bIdxSet rb
-                                             in  ((Set.null (Set.intersection sa (tSet))) && (Set.null (Set.intersection (beta sb) (alpha raBar)) ) && (Set.isSubsetOf sb vSet) && (Set.null (Set.intersection (alpha raBar) (beta rbBar))) ) ||
-                                                 (False)]
-                                  in lstoch (TN n arity sz e) (tail ls)
+lstoch (TN nv arity sz e) ls = let cidx = Set.toList (Set.map (\(_,w1,_,w2) -> (w1,w2)) (Set.filter (\(v1,_,v2,_) -> v1==1 && v2==2) $ e)) -- contraction ways
+                                   t = [w | (w,_) <- cidx]
+                                   v = [w | (_,w) <- cidx]
+                                   m = arity!!0
+                                   n = arity!!1
+                                   l = length t
+                                   tSet = Set.fromList t
+                                   vSet = Set.fromList v
+                                   alpha = contractionMap [1..m] t (1 + m + n - 2 * l)
+                                   beta = contractionMap [(m - l + 1)..(m - l + 1 + n)] [x + m - l | x <- v] (1 + m + n - 2 * l)
+                                   sPairs = [((sa,raBar), (sb,rbBar)) | (sa,ra) <- Set.toList (ls!!0), (sb,rb) <- Set.toList (ls!!1),
+                                              let raBar = (Set.difference (Set.fromList [1..(m - Set.size sa)]) ra),
+                                              let rbBar = (Set.difference (Set.fromList [1..(n - Set.size sb)]) rb),
+                                              (((Set.null (Set.intersection sa (tSet))) && (Set.null (Set.intersection (beta sb) (alpha raBar)) ) )
+                                                || ((Set.null (Set.intersection sb (vSet))) && (Set.null (Set.intersection (alpha sa) (beta rbBar)) ) ))
+                                                && (Set.null (Set.intersection (alpha raBar) (beta rbBar)))]
+                                   merged = Set.fromList [(sc, rc ) | ((sa,raBar), (sb,rbBar)) <- sPairs,
+                                                                       let sc' = Set.union (alpha (Set.difference sa tSet)) (beta (Set.difference sb vSet)),
+                                                                       let rcBar = (Set.union (alpha (Set.difference raBar tSet)) (beta (Set.difference rbBar vSet)) ),
+                                                                       let sc = if rcBar == Set.fromList [1..m+n-2*l-(Set.size sc')]
+                                                                                then Set.empty
+                                                                                else sc',
+                                                                       let rc = if Set.null sc
+                                                                                then Set.empty
+                                                                                else (Set.difference (Set.fromList [1..(m+n-2*l-(Set.size sc))]) rcBar)]
+                                   rest = (drop 2 ls)
+                                   in assert valid $ (lstoch (merge struct 1 2) (merged:rest))
+                                   where struct = (TN nv arity sz e)
+                                         valid = nv >= 2 && tn struct
                                               
 ptn :: TN -> [Set.Set (Set.Set Int)] -> Bool
 ptn struct stoch = (stochasticity struct stoch) == Set.fromList [Set.fromList []]
 
 closeEdges :: [(Int, Int, Int, Int)] -> Set.Set (Int, Int, Int, Int)
 closeEdges e = Set.union (Set.fromList [(v2,w2,v1,w1) | (v1,w1,v2,w2) <- e]) (Set.fromList e)
+
+stochToLStoch :: TN -> [Set.Set (Set.Set Int)] -> [Set.Set (Set.Set Int, Set.Set Int)]
+stochToLStoch (TN n a s e) stoch = [Set.map (\x -> (if Set.null x then Set.empty else Set.difference (Set.fromList [1..(a!!i)]) x, Set.fromList [1..(Set.size x)])) st | (st,i) <- zip stoch [0..]]
 
 stochList :: [[[Int]]] -> [Set.Set (Set.Set Int)]
 stochList s = [Set.fromList [Set.fromList stoch | stoch <- ss] | ss <- s]
