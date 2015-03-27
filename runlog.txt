@@ -1,0 +1,787 @@
+[1,2,3,4]
+pairs = ((fromList [],fromList []),(fromList [2],fromList [1]))
+rbbar = fromList []
+True
+True
+pairs = ((fromList [3],fromList [2]),(fromList [1,2],fromList [1]))
+rbbar = fromList []
+False
+pairs = ((fromList [3],fromList [2]),(fromList [1,3],fromList [1]))
+rbbar = fromList []
+False
+pairs = ((fromList [3],fromList [2]),(fromList [2,3],fromList [1]))
+rbbar = fromList []
+True
+True
+pairs = ((fromList [],fromList []),(fromList [1],fromList [1]))
+rbbar = fromList []
+False
+pairs = ((fromList [],fromList []),(fromList [2],fromList [1]))
+rbbar = fromList []
+True
+True
+[2,1,3,4]
+pairs = ((fromList [2],fromList [1]),(fromList [],fromList []))
+rbbar = fromList [3]
+True
+True
+pairs = ((fromList [2],fromList [1]),(fromList [1,2],fromList [1]))
+rbbar = fromList []
+False
+pairs = ((fromList [2],fromList [1]),(fromList [1,3],fromList [1]))
+rbbar = fromList []
+False
+pairs = ((fromList [2],fromList [1]),(fromList [2,3],fromList [1]))
+rbbar = fromList []
+True
+True
+pairs = ((fromList [],fromList []),(fromList [1],fromList [1]))
+rbbar = fromList []
+False
+pairs = ((fromList [],fromList []),(fromList [2],fromList [1]))
+rbbar = fromList []
+True
+True
+[3,2,1,4]
+pairs = ((fromList [1,2],fromList [1]),(fromList [2],fromList [1]))
+rbbar = fromList []
+True
+True
+pairs = ((fromList [1,3],fromList [1]),(fromList [2],fromList [1]))
+rbbar = fromList []
+True
+True
+pairs = ((fromList [2,3],fromList [1]),(fromList [2],fromList [1]))
+rbbar = fromList []
+True
+True
+pairs = ((fromList [],fromList []),(fromList [],fromList []))
+rbbar = fromList [3]
+True
+False
+pairs = ((fromList [1,3],fromList [1]),(fromList [],fromList []))
+rbbar = fromList [3]
+False
+pairs = ((fromList [2,3],fromList [1]),(fromList [],fromList []))
+rbbar = fromList [3]
+True
+True
+pairs = ((fromList [],fromList []),(fromList [1],fromList [1]))
+rbbar = fromList []
+False
+pairs = ((fromList [],fromList []),(fromList [2],fromList [1]))
+rbbar = fromList []
+True
+True
+[2,3,1,4]
+pairs = ((fromList [2],fromList [1]),(fromList [1,2],fromList [1]))
+rbbar = fromList []
+True
+True
+pairs = ((fromList [2],fromList [1]),(fromList [1,3],fromList [1]))
+rbbar = fromList []
+True
+True
+pairs = ((fromList [2],fromList [1]),(fromList [2,3],fromList [1]))
+rbbar = fromList []
+True
+True
+pairs = ((fromList [],fromList []),(fromList [],fromList []))
+rbbar = fromList [3]
+True
+False
+pairs = ((fromList [1,2],fromList [1]),(fromList [],fromList []))
+rbbar = fromList [3]
+False
+pairs = ((fromList [1,3],fromList [1]),(fromList [],fromList []))
+rbbar = fromList [3]
+True
+True
+pairs = ((fromList [],fromList []),(fromList [1],fromList [1]))
+rbbar = fromList []
+False
+pairs = ((fromList [],fromList []),(fromList [2],fromList [1]))
+rbbar = fromList []
+True
+True
+[3,1,2,4]
+pairs = ((fromList [1,2],fromList [1]),(fromList [],fromList []))
+rbbar = fromList [3]
+False
+pairs = ((fromList [1,3],fromList [1]),(fromList [],fromList []))
+rbbar = fromList [3]
+False
+pairs = ((fromList [2,3],fromList [1]),(fromList [],fromList []))
+rbbar = fromList [3]
+True
+True
+pairs = ((fromList [],fromList []),(fromList [2],fromList [1]))
+rbbar = fromList []
+True
+True
+pairs = ((fromList [],fromList []),(fromList [1],fromList [1]))
+rbbar = fromList []
+False
+pairs = ((fromList [],fromList []),(fromList [2],fromList [1]))
+rbbar = fromList []
+True
+True
+[1,3,2,4]
+pairs = ((fromList [],fromList []),(fromList [1,2],fromList [1]))
+rbbar = fromList []
+False
+pairs = ((fromList [],fromList []),(fromList [1,3],fromList [1]))
+rbbar = fromList []
+False
+pairs = ((fromList [],fromList []),(fromList [2,3],fromList [1]))
+rbbar = fromList []
+True
+True
+pairs = ((fromList [],fromList []),(fromList [2],fromList [1]))
+rbbar = fromList []
+True
+True
+pairs = ((fromList [],fromList []),(fromList [1],fromList [1]))
+rbbar = fromList []
+False
+pairs = ((fromList [],fromList []),(fromList [2],fromList [1]))
+rbbar = fromList []
+True
+True
+[4,3,2,1]
+pairs = ((fromList [1],fromList [1]),(fromList [1,2],fromList [1]))
+rbbar = fromList []
+True
+True
+pairs = ((fromList [1],fromList [1]),(fromList [1,3],fromList [1]))
+rbbar = fromList []
+True
+True
+pairs = ((fromList [1],fromList [1]),(fromList [2,3],fromList [1]))
+rbbar = fromList []
+True
+True
+pairs = ((fromList [2],fromList [1]),(fromList [1,2],fromList [1]))
+rbbar = fromList []
+True
+True
+pairs = ((fromList [2],fromList [1]),(fromList [1,3],fromList [1]))
+rbbar = fromList []
+True
+True
+pairs = ((fromList [2],fromList [1]),(fromList [2,3],fromList [1]))
+rbbar = fromList []
+True
+True
+pairs = ((fromList [1,3,4],fromList [1,2]),(fromList [2],fromList [1]))
+rbbar = fromList []
+False
+pairs = ((fromList [1,3,5],fromList [1,2]),(fromList [2],fromList [1]))
+rbbar = fromList []
+False
+pairs = ((fromList [1,4,5],fromList [1,2]),(fromList [2],fromList [1]))
+rbbar = fromList []
+False
+pairs = ((fromList [2,3,4],fromList [1,2]),(fromList [2],fromList [1]))
+rbbar = fromList []
+False
+pairs = ((fromList [2,3,5],fromList [1,2]),(fromList [2],fromList [1]))
+rbbar = fromList []
+True
+True
+pairs = ((fromList [2,4,5],fromList [1,2]),(fromList [2],fromList [1]))
+rbbar = fromList []
+False
+pairs = ((fromList [],fromList []),(fromList [],fromList []))
+rbbar = fromList [3]
+True
+False
+[3,4,2,1]
+pairs = ((fromList [1,2],fromList [1]),(fromList [1],fromList [1]))
+rbbar = fromList []
+True
+True
+pairs = ((fromList [1,2],fromList [1]),(fromList [2],fromList [1]))
+rbbar = fromList []
+True
+True
+pairs = ((fromList [1,3],fromList [1]),(fromList [1],fromList [1]))
+rbbar = fromList []
+True
+True
+pairs = ((fromList [1,3],fromList [1]),(fromList [2],fromList [1]))
+rbbar = fromList []
+True
+True
+pairs = ((fromList [2,3],fromList [1]),(fromList [1],fromList [1]))
+rbbar = fromList []
+True
+True
+pairs = ((fromList [2,3],fromList [1]),(fromList [2],fromList [1]))
+rbbar = fromList []
+True
+True
+pairs = ((fromList [1,2,4],fromList [1,2]),(fromList [2],fromList [1]))
+rbbar = fromList []
+False
+pairs = ((fromList [1,2,5],fromList [1,2]),(fromList [2],fromList [1]))
+rbbar = fromList []
+False
+pairs = ((fromList [1,3,4],fromList [1,2]),(fromList [2],fromList [1]))
+rbbar = fromList []
+False
+pairs = ((fromList [1,3,5],fromList [1,2]),(fromList [2],fromList [1]))
+rbbar = fromList []
+True
+True
+pairs = ((fromList [2,3,4],fromList [1,2]),(fromList [2],fromList [1]))
+rbbar = fromList []
+False
+pairs = ((fromList [2,3,5],fromList [1,2]),(fromList [2],fromList [1]))
+rbbar = fromList []
+False
+pairs = ((fromList [],fromList []),(fromList [],fromList []))
+rbbar = fromList [3]
+True
+False
+[3,2,4,1]
+pairs = ((fromList [1,2],fromList [1]),(fromList [2],fromList [1]))
+rbbar = fromList []
+True
+True
+pairs = ((fromList [1,3],fromList [1]),(fromList [2],fromList [1]))
+rbbar = fromList []
+True
+True
+pairs = ((fromList [2,3],fromList [1]),(fromList [2],fromList [1]))
+rbbar = fromList []
+True
+True
+pairs = ((fromList [],fromList []),(fromList [1],fromList [1]))
+rbbar = fromList []
+False
+pairs = ((fromList [],fromList []),(fromList [2],fromList [1]))
+rbbar = fromList []
+True
+True
+pairs = ((fromList [1,3],fromList [1]),(fromList [1],fromList [1]))
+rbbar = fromList []
+False
+pairs = ((fromList [1,3],fromList [1]),(fromList [2],fromList [1]))
+rbbar = fromList []
+True
+True
+pairs = ((fromList [2,3],fromList [1]),(fromList [1],fromList [1]))
+rbbar = fromList []
+False
+pairs = ((fromList [2,3],fromList [1]),(fromList [2],fromList [1]))
+rbbar = fromList []
+True
+True
+pairs = ((fromList [],fromList []),(fromList [],fromList []))
+rbbar = fromList [3]
+True
+False
+pairs = ((fromList [1,3],fromList [1]),(fromList [],fromList []))
+rbbar = fromList [3]
+False
+pairs = ((fromList [2,3],fromList [1]),(fromList [],fromList []))
+rbbar = fromList [3]
+True
+True
+[4,2,3,1]
+pairs = ((fromList [1],fromList [1]),(fromList [2],fromList [1]))
+rbbar = fromList []
+False
+pairs = ((fromList [2],fromList [1]),(fromList [2],fromList [1]))
+rbbar = fromList []
+True
+True
+pairs = ((fromList [1],fromList [1]),(fromList [1,2],fromList [1]))
+rbbar = fromList []
+True
+True
+pairs = ((fromList [1],fromList [1]),(fromList [1,3],fromList [1]))
+rbbar = fromList []
+True
+True
+pairs = ((fromList [1],fromList [1]),(fromList [2,3],fromList [1]))
+rbbar = fromList []
+True
+True
+pairs = ((fromList [],fromList []),(fromList [],fromList []))
+rbbar = fromList [3]
+True
+False
+pairs = ((fromList [1,2],fromList [1]),(fromList [],fromList []))
+rbbar = fromList [3]
+False
+pairs = ((fromList [1,3],fromList [1]),(fromList [],fromList []))
+rbbar = fromList [3]
+True
+True
+[2,4,3,1]
+pairs = ((fromList [2],fromList [1]),(fromList [1],fromList [1]))
+rbbar = fromList []
+False
+pairs = ((fromList [2],fromList [1]),(fromList [2],fromList [1]))
+rbbar = fromList []
+True
+True
+pairs = ((fromList [2],fromList [1]),(fromList [1,2],fromList [1]))
+rbbar = fromList []
+True
+True
+pairs = ((fromList [2],fromList [1]),(fromList [1,3],fromList [1]))
+rbbar = fromList []
+True
+True
+pairs = ((fromList [2],fromList [1]),(fromList [2,3],fromList [1]))
+rbbar = fromList []
+True
+True
+pairs = ((fromList [],fromList []),(fromList [],fromList []))
+rbbar = fromList [3]
+True
+False
+pairs = ((fromList [1,2],fromList [1]),(fromList [],fromList []))
+rbbar = fromList [3]
+False
+pairs = ((fromList [1,3],fromList [1]),(fromList [],fromList []))
+rbbar = fromList [3]
+True
+True
+[2,3,4,1]
+pairs = ((fromList [2],fromList [1]),(fromList [1,2],fromList [1]))
+rbbar = fromList []
+True
+True
+pairs = ((fromList [2],fromList [1]),(fromList [1,3],fromList [1]))
+rbbar = fromList []
+True
+True
+pairs = ((fromList [2],fromList [1]),(fromList [2,3],fromList [1]))
+rbbar = fromList []
+True
+True
+pairs = ((fromList [],fromList []),(fromList [1],fromList [1]))
+rbbar = fromList []
+False
+pairs = ((fromList [],fromList []),(fromList [2],fromList [1]))
+rbbar = fromList []
+True
+True
+pairs = ((fromList [1,2],fromList [1]),(fromList [1],fromList [1]))
+rbbar = fromList []
+False
+pairs = ((fromList [1,2],fromList [1]),(fromList [2],fromList [1]))
+rbbar = fromList []
+True
+True
+pairs = ((fromList [1,3],fromList [1]),(fromList [1],fromList [1]))
+rbbar = fromList []
+False
+pairs = ((fromList [1,3],fromList [1]),(fromList [2],fromList [1]))
+rbbar = fromList []
+True
+True
+pairs = ((fromList [],fromList []),(fromList [],fromList []))
+rbbar = fromList [3]
+True
+False
+pairs = ((fromList [1,3],fromList [1]),(fromList [],fromList []))
+rbbar = fromList [3]
+False
+pairs = ((fromList [2,3],fromList [1]),(fromList [],fromList []))
+rbbar = fromList [3]
+True
+True
+[4,1,2,3]
+pairs = ((fromList [1],fromList [1]),(fromList [],fromList []))
+rbbar = fromList [3]
+True
+True
+pairs = ((fromList [2],fromList [1]),(fromList [],fromList []))
+rbbar = fromList [3]
+True
+True
+pairs = ((fromList [1],fromList [1]),(fromList [2],fromList [1]))
+rbbar = fromList []
+False
+pairs = ((fromList [2],fromList [1]),(fromList [2],fromList [1]))
+rbbar = fromList []
+True
+True
+pairs = ((fromList [1],fromList [2]),(fromList [1,2],fromList [1]))
+rbbar = fromList []
+False
+pairs = ((fromList [1],fromList [2]),(fromList [1,3],fromList [1]))
+rbbar = fromList []
+False
+pairs = ((fromList [1],fromList [2]),(fromList [2,3],fromList [1]))
+rbbar = fromList []
+True
+True
+[1,4,2,3]
+pairs = ((fromList [],fromList []),(fromList [1],fromList [1]))
+rbbar = fromList []
+True
+True
+pairs = ((fromList [],fromList []),(fromList [2],fromList [1]))
+rbbar = fromList []
+True
+True
+pairs = ((fromList [2],fromList [2]),(fromList [2],fromList [1]))
+rbbar = fromList []
+False
+pairs = ((fromList [3],fromList [2]),(fromList [2],fromList [1]))
+rbbar = fromList []
+True
+True
+pairs = ((fromList [2],fromList [2]),(fromList [1,2],fromList [1]))
+rbbar = fromList []
+False
+pairs = ((fromList [2],fromList [2]),(fromList [1,3],fromList [1]))
+rbbar = fromList []
+False
+pairs = ((fromList [2],fromList [2]),(fromList [2,3],fromList [1]))
+rbbar = fromList []
+True
+True
+[1,2,4,3]
+pairs = ((fromList [],fromList []),(fromList [2],fromList [1]))
+rbbar = fromList []
+True
+True
+pairs = ((fromList [3],fromList [2]),(fromList [1],fromList [1]))
+rbbar = fromList []
+False
+pairs = ((fromList [3],fromList [2]),(fromList [2],fromList [1]))
+rbbar = fromList []
+True
+True
+pairs = ((fromList [3],fromList [2]),(fromList [1,2],fromList [1]))
+rbbar = fromList []
+False
+pairs = ((fromList [3],fromList [2]),(fromList [1,3],fromList [1]))
+rbbar = fromList []
+False
+pairs = ((fromList [3],fromList [2]),(fromList [2,3],fromList [1]))
+rbbar = fromList []
+True
+True
+[4,2,1,3]
+pairs = ((fromList [1],fromList [1]),(fromList [2],fromList [1]))
+rbbar = fromList []
+False
+pairs = ((fromList [2],fromList [1]),(fromList [2],fromList [1]))
+rbbar = fromList []
+True
+True
+pairs = ((fromList [1],fromList [1]),(fromList [],fromList []))
+rbbar = fromList [3]
+True
+True
+pairs = ((fromList [1],fromList [1]),(fromList [1,2],fromList [1]))
+rbbar = fromList []
+False
+pairs = ((fromList [1],fromList [1]),(fromList [1,3],fromList [1]))
+rbbar = fromList []
+False
+pairs = ((fromList [1],fromList [1]),(fromList [2,3],fromList [1]))
+rbbar = fromList []
+True
+True
+[2,4,1,3]
+pairs = ((fromList [2],fromList [1]),(fromList [1],fromList [1]))
+rbbar = fromList []
+False
+pairs = ((fromList [2],fromList [1]),(fromList [2],fromList [1]))
+rbbar = fromList []
+True
+True
+pairs = ((fromList [2],fromList [1]),(fromList [],fromList []))
+rbbar = fromList [3]
+True
+True
+pairs = ((fromList [2],fromList [1]),(fromList [1,2],fromList [1]))
+rbbar = fromList []
+False
+pairs = ((fromList [2],fromList [1]),(fromList [1,3],fromList [1]))
+rbbar = fromList []
+False
+pairs = ((fromList [2],fromList [1]),(fromList [2,3],fromList [1]))
+rbbar = fromList []
+True
+True
+[2,1,4,3]
+pairs = ((fromList [2],fromList [1]),(fromList [],fromList []))
+rbbar = fromList [3]
+True
+True
+pairs = ((fromList [2],fromList [1]),(fromList [1],fromList [1]))
+rbbar = fromList []
+False
+pairs = ((fromList [2],fromList [1]),(fromList [2],fromList [1]))
+rbbar = fromList []
+True
+True
+pairs = ((fromList [3],fromList [1]),(fromList [1,2],fromList [1]))
+rbbar = fromList []
+False
+pairs = ((fromList [3],fromList [1]),(fromList [1,3],fromList [1]))
+rbbar = fromList []
+False
+pairs = ((fromList [3],fromList [1]),(fromList [2,3],fromList [1]))
+rbbar = fromList []
+True
+True
+[4,1,3,2]
+pairs = ((fromList [1],fromList [1]),(fromList [],fromList []))
+rbbar = fromList [3]
+True
+True
+pairs = ((fromList [2],fromList [1]),(fromList [],fromList []))
+rbbar = fromList [3]
+True
+True
+pairs = ((fromList [1],fromList [1]),(fromList [1,2],fromList [1]))
+rbbar = fromList []
+False
+pairs = ((fromList [1],fromList [1]),(fromList [1,3],fromList [1]))
+rbbar = fromList []
+False
+pairs = ((fromList [1],fromList [1]),(fromList [2,3],fromList [1]))
+rbbar = fromList []
+True
+True
+pairs = ((fromList [2],fromList [1]),(fromList [1,2],fromList [1]))
+rbbar = fromList []
+False
+pairs = ((fromList [2],fromList [1]),(fromList [1,3],fromList [1]))
+rbbar = fromList []
+False
+pairs = ((fromList [2],fromList [1]),(fromList [2,3],fromList [1]))
+rbbar = fromList []
+True
+True
+pairs = ((fromList [1,3,4],fromList [1]),(fromList [2],fromList [1]))
+rbbar = fromList []
+False
+pairs = ((fromList [2,3,4],fromList [1]),(fromList [2],fromList [1]))
+rbbar = fromList []
+False
+[1,4,3,2]
+pairs = ((fromList [],fromList []),(fromList [1],fromList [1]))
+rbbar = fromList []
+True
+True
+pairs = ((fromList [],fromList []),(fromList [2],fromList [1]))
+rbbar = fromList []
+True
+True
+pairs = ((fromList [2],fromList [2]),(fromList [1,2],fromList [1]))
+rbbar = fromList []
+False
+pairs = ((fromList [2],fromList [2]),(fromList [1,3],fromList [1]))
+rbbar = fromList []
+False
+pairs = ((fromList [2],fromList [2]),(fromList [2,3],fromList [1]))
+rbbar = fromList []
+True
+True
+pairs = ((fromList [3],fromList [2]),(fromList [1,2],fromList [1]))
+rbbar = fromList []
+False
+pairs = ((fromList [3],fromList [2]),(fromList [1,3],fromList [1]))
+rbbar = fromList []
+False
+pairs = ((fromList [3],fromList [2]),(fromList [2,3],fromList [1]))
+rbbar = fromList []
+True
+True
+pairs = ((fromList [1,3,4],fromList [1]),(fromList [2],fromList [1]))
+rbbar = fromList []
+False
+pairs = ((fromList [2,3,4],fromList [1]),(fromList [2],fromList [1]))
+rbbar = fromList []
+False
+[1,3,4,2]
+pairs = ((fromList [],fromList []),(fromList [1,2],fromList [1]))
+rbbar = fromList []
+False
+pairs = ((fromList [],fromList []),(fromList [1,3],fromList [1]))
+rbbar = fromList []
+False
+pairs = ((fromList [],fromList []),(fromList [2,3],fromList [1]))
+rbbar = fromList []
+True
+True
+pairs = ((fromList [],fromList []),(fromList [1],fromList [1]))
+rbbar = fromList []
+True
+True
+pairs = ((fromList [],fromList []),(fromList [2],fromList [1]))
+rbbar = fromList []
+True
+True
+pairs = ((fromList [3],fromList [3]),(fromList [2],fromList [1]))
+rbbar = fromList []
+False
+pairs = ((fromList [4],fromList [3]),(fromList [2],fromList [1]))
+rbbar = fromList []
+True
+True
+[4,3,1,2]
+pairs = ((fromList [1],fromList [1]),(fromList [1,2],fromList [1]))
+rbbar = fromList []
+True
+True
+pairs = ((fromList [1],fromList [1]),(fromList [1,3],fromList [1]))
+rbbar = fromList []
+True
+True
+pairs = ((fromList [1],fromList [1]),(fromList [2,3],fromList [1]))
+rbbar = fromList []
+True
+True
+pairs = ((fromList [2],fromList [1]),(fromList [1,2],fromList [1]))
+rbbar = fromList []
+True
+True
+pairs = ((fromList [2],fromList [1]),(fromList [1,3],fromList [1]))
+rbbar = fromList []
+True
+True
+pairs = ((fromList [2],fromList [1]),(fromList [2,3],fromList [1]))
+rbbar = fromList []
+True
+True
+pairs = ((fromList [1,3,4],fromList [1,2]),(fromList [],fromList []))
+rbbar = fromList [5]
+False
+pairs = ((fromList [1,3,5],fromList [1,2]),(fromList [],fromList []))
+rbbar = fromList [5]
+False
+pairs = ((fromList [1,4,5],fromList [1,2]),(fromList [],fromList []))
+rbbar = fromList [5]
+True
+True
+pairs = ((fromList [2,3,4],fromList [1,2]),(fromList [],fromList []))
+rbbar = fromList [5]
+False
+pairs = ((fromList [2,3,5],fromList [1,2]),(fromList [],fromList []))
+rbbar = fromList [5]
+False
+pairs = ((fromList [2,4,5],fromList [1,2]),(fromList [],fromList []))
+rbbar = fromList [5]
+True
+True
+pairs = ((fromList [1,3,4],fromList [1]),(fromList [2],fromList [1]))
+rbbar = fromList []
+False
+pairs = ((fromList [2,3,4],fromList [1]),(fromList [2],fromList [1]))
+rbbar = fromList []
+False
+[3,4,1,2]
+pairs = ((fromList [1,2],fromList [1]),(fromList [1],fromList [1]))
+rbbar = fromList []
+True
+True
+pairs = ((fromList [1,2],fromList [1]),(fromList [2],fromList [1]))
+rbbar = fromList []
+True
+True
+pairs = ((fromList [1,3],fromList [1]),(fromList [1],fromList [1]))
+rbbar = fromList []
+True
+True
+pairs = ((fromList [1,3],fromList [1]),(fromList [2],fromList [1]))
+rbbar = fromList []
+True
+True
+pairs = ((fromList [2,3],fromList [1]),(fromList [1],fromList [1]))
+rbbar = fromList []
+True
+True
+pairs = ((fromList [2,3],fromList [1]),(fromList [2],fromList [1]))
+rbbar = fromList []
+True
+True
+pairs = ((fromList [1,2,4],fromList [1,2]),(fromList [],fromList []))
+rbbar = fromList [5]
+False
+pairs = ((fromList [1,2,5],fromList [1,2]),(fromList [],fromList []))
+rbbar = fromList [5]
+False
+pairs = ((fromList [1,3,4],fromList [1,2]),(fromList [],fromList []))
+rbbar = fromList [5]
+False
+pairs = ((fromList [1,3,5],fromList [1,2]),(fromList [],fromList []))
+rbbar = fromList [5]
+False
+pairs = ((fromList [2,3,4],fromList [1,2]),(fromList [],fromList []))
+rbbar = fromList [5]
+True
+True
+pairs = ((fromList [2,3,5],fromList [1,2]),(fromList [],fromList []))
+rbbar = fromList [5]
+True
+True
+pairs = ((fromList [1,2,3],fromList [1]),(fromList [2],fromList [1]))
+rbbar = fromList []
+False
+pairs = ((fromList [1,2,4],fromList [1]),(fromList [2],fromList [1]))
+rbbar = fromList []
+False
+[3,1,4,2]
+pairs = ((fromList [1,2],fromList [1]),(fromList [],fromList []))
+rbbar = fromList [3]
+False
+pairs = ((fromList [1,3],fromList [1]),(fromList [],fromList []))
+rbbar = fromList [3]
+False
+pairs = ((fromList [2,3],fromList [1]),(fromList [],fromList []))
+rbbar = fromList [3]
+True
+True
+pairs = ((fromList [],fromList []),(fromList [1],fromList [1]))
+rbbar = fromList []
+True
+True
+pairs = ((fromList [],fromList []),(fromList [2],fromList [1]))
+rbbar = fromList []
+True
+True
+pairs = ((fromList [3],fromList [3]),(fromList [2],fromList [1]))
+rbbar = fromList []
+False
+pairs = ((fromList [4],fromList [3]),(fromList [2],fromList [1]))
+rbbar = fromList []
+True
+True
+fromList [(fromList [],fromList [])]
+fromList [(fromList [],fromList [])]
+fromList [(fromList [],fromList [])]
+fromList [(fromList [],fromList [])]
+fromList [(fromList [],fromList [])]
+fromList [(fromList [],fromList [])]
+fromList []
+fromList []
+fromList [(fromList [],fromList [])]
+fromList [(fromList [],fromList [])]
+fromList [(fromList [],fromList [])]
+fromList [(fromList [],fromList [])]
+fromList [(fromList [],fromList [])]
+fromList [(fromList [],fromList [])]
+fromList [(fromList [],fromList [])]
+fromList [(fromList [],fromList [])]
+fromList [(fromList [],fromList [])]
+fromList [(fromList [],fromList [])]
+fromList []
+fromList []
+fromList [(fromList [],fromList [])]
+fromList []
+fromList []
+fromList [(fromList [],fromList [])]
+All tests succeeded
