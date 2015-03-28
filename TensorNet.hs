@@ -8,7 +8,7 @@ module TensorNet
   updateAll,
   stochList,
   closeEdges,
-  lstoch,
+  lstoch2,
   stochToLStoch,
   permuteTN
 )
@@ -141,6 +141,29 @@ lstoch (TN nv arity sz e) ls = let cidx = Set.toList (Set.map (\(_,w1,_,w2) -> (
                                    in assert valid $ (lstoch (merge struct 1 2) (merged:rest))
                                    where struct = (TN nv arity sz e)
                                          valid = nv >= 2 && tn struct
+
+lstoch2 :: TN -> [Set.Set (Set.Set Int, Set.Set Int, Set.Set Int)] -> Set.Set(Set.Set Int, Set.Set Int, Set.Set Int)
+lstoch2 (TN 1 arity sz e) [ls] = assert (tn (TN 1 arity sz e)) $ ls
+lstoch2 (TN nv arity sz e) ls = let cidx = Set.toList (Set.map (\(_,w1,_,w2) -> (w1,w2)) (Set.filter (\(v1,_,v2,_) -> v1==1 && v2==2) $ e)) -- contraction ways
+                                    t = [w | (w,_) <- cidx]
+                                    v = [w | (_,w) <- cidx]
+                                    m = arity!!0
+                                    n = arity!!1
+                                    l = length t
+                                    tSet = Set.fromList t
+                                    vSet = Set.fromList v
+                                    alpha = contractionMap [1..m] t (1 + m + n - 2 * l)
+                                    beta = contractionMap [(m - l + 1)..(m - l + 1 + n)] [x + m - l | x <- v] (1 + m + n - 2 * l)
+                                    merged = if l == 0
+                                             then let aSum = Set.fold (Set.union) (Set.empty) (Set.map (\(s,_,_) -> s) (ls!!0))
+                                                      bSum = Set.fold (Set.union) (Set.empty) (Set.map (\(s,_,_) -> s) (ls!!1))
+                                                      in Set.union (Set.map (\(s,r,stoch) -> (s, r, Set.union stoch (beta bSum))) (ls!!0)) -- A's new latent stoch
+                                                                   (Set.map (\(s,r,stoch) -> (beta s, beta r, Set.union (beta stoch) aSum)) (ls!!1)) -- B's new latent stoch
+                                             else head ls
+                                    rest = (drop 2 ls)
+                                    in assert valid $ (lstoch2 (merge struct 1 2) (merged:rest))
+                                    where struct = (TN nv arity sz e)
+                                          valid = nv >= 2 && tn struct
                                               
 ptn :: TN -> [Set.Set (Set.Set Int)] -> Bool
 ptn struct stoch = (stochasticity struct stoch) == Set.fromList [Set.fromList []]
@@ -148,8 +171,8 @@ ptn struct stoch = (stochasticity struct stoch) == Set.fromList [Set.fromList []
 closeEdges :: [(Int, Int, Int, Int)] -> Set.Set (Int, Int, Int, Int)
 closeEdges e = Set.union (Set.fromList [(v2,w2,v1,w1) | (v1,w1,v2,w2) <- e]) (Set.fromList e)
 
-stochToLStoch :: TN -> [Set.Set (Set.Set Int)] -> [Set.Set (Set.Set Int, Set.Set Int)]
-stochToLStoch (TN n a s e) stoch = [Set.map (\x -> (if Set.null x then Set.empty else Set.difference (Set.fromList [1..(a!!i)]) x, Set.fromList [1..(Set.size x)])) st | (st,i) <- zip stoch [0..]]
+stochToLStoch :: TN -> [Set.Set (Set.Set Int)] -> [Set.Set (Set.Set Int, Set.Set Int, Set.Set Int)]
+stochToLStoch (TN n a s e) stoch = [Set.map (\x -> (Set.difference (Set.fromList [1..(a!!i)]) x, x, Set.empty)) st | (st,i) <- zip stoch [0..]]
 
 stochList :: [[[Int]]] -> [Set.Set (Set.Set Int)]
 stochList s = [Set.fromList [Set.fromList stoch | stoch <- ss] | ss <- s]
