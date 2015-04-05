@@ -142,22 +142,21 @@ lstoch (TN nv arity sz e) ls = let cidx = Set.toList (Set.map (\(_,w1,_,w2) -> (
                                    where struct = (TN nv arity sz e)
                                          valid = nv >= 2 && tn struct
 
-findPath :: Set.Set (Set.Set Int, Set.Set Int, Set.Set Int) -> Set.Set (Set.Set Int, Set.Set Int, Set.Set Int) -> Set.Set (Set.Set Int, Set.Set Int, Set.Set Int) -> Set.Set (Set.Set Int, Set.Set Int, Set.Set Int) -> Set.Set Int -> Set.Set Int -> Set.Set Int-> Set.Set Int -> Set.Set Int -> Maybe (Set.Set Int, Set.Set Int)
+findPath :: Set.Set (Set.Set Int, Set.Set Int, Set.Set Int) -> Set.Set (Set.Set Int, Set.Set Int, Set.Set Int) -> Set.Set (Set.Set Int, Set.Set Int, Set.Set Int) -> Set.Set (Set.Set Int, Set.Set Int, Set.Set Int) -> Set.Set Int -> Set.Set Int -> Set.Set Int-> Set.Set Int -> Set.Set Int -> [(Set.Set Int, Set.Set Int)]
 findPath lsA lsRemA lsB lsRemB t sA rA sB rB
-    | (Set.isSubsetOf t (Set.union sA sB)) && (Set.isSubsetOf t (Set.union rA rB)) = Just (Set.union sA sB, Set.union rA rB) -- Success!
-    | (Set.null lsA) && (Set.null lsB) = Nothing -- Failure, need to backtrack!
+    | (Set.isSubsetOf t (Set.union sA sB)) && (Set.isSubsetOf t (Set.union rA rB)) = [(Set.union sA sB, Set.union rA rB)] -- Success!
+    | (Set.null lsA) && (Set.null lsB) = [] -- Failure, need to backtrack!
     | otherwise = 
         if nextRule
         then let res = findPath (Set.union lsA' lsRemA) Set.empty (Set.union lsB' lsRemB) Set.empty t sA' rA' sB' rB' -- add back removed rules; they might be applicable now
-                 (s', r') = fromMaybe (Set.empty, Set.empty) res
-             in if isJust res
-                then Just (s', r')
-                else if useA
-                     then findPath lsA' (Set.insert (s, r, stoch) lsRemA) lsB' lsRemB t sA rA sB rB  -- backtrack, remove offending rule
+             in if null res
+                then if useA
+                     then findPath lsA' (Set.insert (s, r, stoch) lsRemA) lsB' lsRemB t sA rA sB rB -- check next rule
                      else findPath lsA' lsRemA lsB' (Set.insert (s, r, stoch) lsRemB) t sA rA sB rB
+                else res ++ (findPath lsA' lsRemA lsB' lsRemB t sA rA sB rB) -- continue to next path (don't add to removed rules)
         else if useA
-                then findPath lsA' (Set.insert (s, r, stoch) lsRemA) lsB' lsRemB t sA rA sB rB -- check next rule
-                else findPath lsA' lsRemA lsB' (Set.insert (s, r, stoch) lsRemB) t sA rA sB rB
+             then findPath lsA' (Set.insert (s, r, stoch) lsRemA) lsB' lsRemB t sA rA sB rB -- check next rule
+             else findPath lsA' lsRemA lsB' (Set.insert (s, r, stoch) lsRemB) t sA rA sB rB
         where useA          = not (Set.null lsA)
               (s, r, stoch) = if useA
                               then Set.elemAt 0 lsA
@@ -190,15 +189,11 @@ findPath lsA lsRemA lsB lsRemB t sA rA sB rB
                                 && (Set.null (Set.intersection s rB))
                                 && (Set.null (Set.intersection r rA)))
                                                            
-findLS :: Set.Set (Set.Set Int, Set.Set Int, Set.Set Int) -> Set.Set (Set.Set Int, Set.Set Int, Set.Set Int) -> Set.Set Int -> Maybe (Set.Set Int, Set.Set Int)
+findLS :: Set.Set (Set.Set Int, Set.Set Int, Set.Set Int) -> Set.Set (Set.Set Int, Set.Set Int, Set.Set Int) -> Set.Set Int -> [(Set.Set Int, Set.Set Int)]
 findLS lsA lsB t =
     let relA = Set.filter (\(s,r,st) -> (not (Set.null (Set.intersection s t ) )) || (not (Set.null (Set.intersection r t ) ))) lsA
         relB = Set.filter (\(s,r,st) -> (not (Set.null (Set.intersection s t ) )) || (not (Set.null (Set.intersection r t ) ))) lsB
-        res = findPath relA Set.empty relB Set.empty t Set.empty Set.empty Set.empty Set.empty
-        (mS, mR) = fromMaybe (Set.empty, Set.empty) res
-    in if isJust res
-       then Just (Set.difference mS t, Set.difference mR t)
-       else Nothing
+    in  [(Set.difference mS t, Set.difference mR t) | (mS, mR) <- findPath relA Set.empty relB Set.empty t Set.empty Set.empty Set.empty Set.empty]
 
 normalizeLS :: Int -> Set.Set(Set.Set Int, Set.Set Int, Set.Set Int) -> Set.Set(Set.Set Int, Set.Set Int, Set.Set Int)
 normalizeLS a ls = Set.map
@@ -209,7 +204,9 @@ normalizeLS a ls = Set.map
     )
     ls
     --(Set.filter (\(s,r,st) -> Set.null (Set.intersection s r)) ls) -- remove any self-contradictory rules
-       
+
+
+    
 lstoch2 :: TN -> [Set.Set (Set.Set Int, Set.Set Int, Set.Set Int)] -> Set.Set(Set.Set Int, Set.Set Int, Set.Set Int)
 lstoch2 (TN 1 arity sz e) [ls] = assert (tn (TN 1 arity sz e)) $ ls
 lstoch2 (TN nv arity sz e) ls = let cidx = Set.toList (Set.map (\(_,w1,_,w2) -> (w1,w2)) (Set.filter (\(v1,_,v2,_) -> v1==1 && v2==2) $ e)) -- contraction ways
@@ -224,17 +221,19 @@ lstoch2 (TN nv arity sz e) ls = let cidx = Set.toList (Set.map (\(_,w1,_,w2) -> 
                                     beta = contractionMap [(m - l + 1)..(m - l + 1 + n)] [x + m - l | x <- v] (1 + m + n - 2 * l)
                                     cSet = alpha tSet
                                     path = findLS (Set.map (\(s,r,st) -> (alpha s, alpha r, alpha st)) (ls!!0)) (Set.map (\(s,r,st) -> (beta s, beta r, beta st)) (ls!!1)) cSet
-                                    (mS, mR) = fromMaybe (Set.empty, Set.empty) path
-                                    lsA = Set.map (\(s,r,stoch) -> (Set.difference (updateAll s tSet 0) (Set.union mS mR), Set.difference (updateAll r tSet 0) mS, Set.difference (updateAll stoch tSet 0) (Set.union mS mR) )) (ls!!0)
-                                    lsB = Set.map (\(s,r,stoch) -> (Set.difference (updateAll s vSet (m-l)) (Set.union mS mR), Set.difference (updateAll r vSet (m-l)) mS, Set.difference (updateAll stoch vSet (m-l)) (Set.union mS mR) )) (ls!!1)
-                                    merged = let aSum = Set.fold (Set.union) (Set.empty) (Set.map (\(s,_,_) -> s) lsA)
-                                                 bSum = Set.fold (Set.union) (Set.empty) (Set.map (\(s,_,_) -> s) lsB)
-                                             in Set.union (Set.map (\(s,r,stoch) -> (Set.union s mS, Set.union r mR, Set.union stoch bSum)) lsA) -- A's new latent stoch
-                                                          (Set.map (\(s,r,stoch) -> (Set.union s mS, Set.union r mR, Set.union stoch aSum)) lsB) -- B's new latent stoch
+                                    lsA = [Set.map (\(s,r,stoch) -> (Set.difference (updateAll s tSet 0) (Set.union mS mR), Set.difference (updateAll r tSet 0) mS, Set.difference (updateAll stoch tSet 0) (Set.union mS mR) )) (ls!!0) | (mS, mR) <- path]
+                                    lsB = [Set.map (\(s,r,stoch) -> (Set.difference (updateAll s vSet (m-l)) (Set.union mS mR), Set.difference (updateAll r vSet (m-l)) mS, Set.difference (updateAll stoch vSet (m-l)) (Set.union mS mR) )) (ls!!1) | (mS, mR) <- path]
+                                    merged = [normalizeLS (m+n-2*l) $ Set.union (Set.map (\(s,r,stoch) -> (Set.union s (mS), Set.union r (mR), Set.union stoch bSum)) (lsA!!i)) -- A's new latent stoch
+                                                        (Set.map (\(s,r,stoch) -> (Set.union s (mS), Set.union r (mR), Set.union stoch aSum)) (lsB!!i)) -- B's new latent stoch
+                                              | i <- [0..((length path)-1)],
+                                                let aSum = Set.fold (Set.union) (Set.empty) (Set.map (\(s,_,_) -> s) (lsA!!i)),
+                                                let bSum = Set.fold (Set.union) (Set.empty) (Set.map (\(s,_,_) -> s) (lsB!!i)),
+                                                let (mS,mR) = path!!i]
+                                    mergeLS = foldr (Set.union) (Set.empty) (merged)
                                     rest = (drop 2 ls)
                                     in assert valid $
-                                       if isJust path
-                                       then traceShow merged (lstoch2 (merge struct 1 2) ((normalizeLS (m+n-2*l) merged):rest))
+                                       if not (null path)
+                                       then (lstoch2 (merge struct 1 2) (mergeLS:rest))
                                        else Set.empty
                                     where struct = (TN nv arity sz e)
                                           valid = nv >= 2 && tn struct
