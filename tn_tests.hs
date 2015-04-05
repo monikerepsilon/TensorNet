@@ -26,7 +26,7 @@ stochLists = [(stochList [ [[]], [[1]] ]),
               (stochList [ [[]], [[1]], [[1,2]]])]
               
 stochs = map (\(p, sl) -> stochToLStoch p sl) (zip ptns stochLists)
-caseNum = 9
+caseNum = 1
 testCases = (zip3 (permutations [1..(getTNn (ptns!!caseNum) )]) (permuteTN (ptns!!caseNum)) (permutations (stochs!!caseNum)))
 
 getTNn (TN n a s e) = n
