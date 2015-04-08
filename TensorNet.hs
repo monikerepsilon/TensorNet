@@ -181,20 +181,26 @@ findPath lsA lsRemA lsB lsRemB t sA rA sB rB curStoch
                                 && (Set.null (Set.intersection r sB))
                                 && (Set.null (Set.intersection s rB))
                                 && (Set.null (Set.intersection r rA)))
-            child         = if nextRule -- can add next rule; add back removed rules since they might now be applicable
+            children      = if nextRule -- can add next rule; add back removed rules since they might now be applicable
                                 then findPath (Set.union lsA' lsRemA) Set.empty (Set.union lsB' lsRemB) Set.empty t sA' rA' sB' rB' mSt
                                 else Set.empty
             rest          = if useA -- or, *not* using the rule
                                 then findPath lsA' (Set.insert (s, r, stoch) lsRemA) lsB' lsRemB t sA rA sB rB curStoch
                                 else findPath lsA' lsRemA lsB' (Set.insert (s, r, stoch) lsRemB) t sA rA sB rB curStoch
-            childS = Set.fold (Set.union) Set.empty (Set.map (\(s,r,st) -> s) child) -- S values of valid rules reachable from current point
-        in if   (nextRule && (curRule || (not (Set.null child)))) -- can add current rule?
-            then (Set.union rest (Set.union child (Set.singleton (Set.difference mS t, Set.difference mR t, Set.difference (Set.difference (Set.union mSt childS) mS) t))) )
+        in if   (nextRule && (curRule || (not (Set.null children)))) -- can add current rule?
+            then Set.union rest
+                 (if not (Set.null children)
+                  then Set.union children
+                       (Set.map (\(cs, cr, cst) -> (Set.difference mS t, Set.difference mR t, Set.difference (Set.difference (Set.union mSt (Set.union cs cst)) mS) t)) children)
+                  else Set.singleton (Set.difference mS t, Set.difference mR t, (Set.difference (Set.difference mSt mS ) t)) )
+                 
             else rest
                                                            
 findLS :: Set.Set (Set.Set Int, Set.Set Int, Set.Set Int) -> Set.Set (Set.Set Int, Set.Set Int, Set.Set Int) -> Set.Set Int -> Set.Set (Set.Set Int, Set.Set Int, Set.Set Int)
 findLS lsA lsB t =
-    findPath lsA Set.empty lsB Set.empty t Set.empty Set.empty Set.empty Set.empty Set.empty
+    if (Set.null lsA) || (Set.null lsB)
+    then Set.empty
+    else findPath lsA Set.empty lsB Set.empty t Set.empty Set.empty Set.empty Set.empty Set.empty
 
 normalizeLS :: Int -> Set.Set(Set.Set Int, Set.Set Int, Set.Set Int) -> Set.Set(Set.Set Int, Set.Set Int, Set.Set Int)
 normalizeLS a ls = Set.map
@@ -221,7 +227,7 @@ lstoch2 (TN nv arity sz e) ls = let cidx = Set.toList (Set.map (\(_,w1,_,w2) -> 
                                     alpha = contractionMap [1..m] t (1 + m + n - 2 * l)
                                     beta = contractionMap [(m - l + 1)..(m - l + 1 + n)] [x + m - l | x <- v] (1 + m + n - 2 * l)
                                     cSet = alpha tSet
-                                    merged = findLS (Set.map (\(s,r,st) -> (alpha s, alpha r, alpha st)) (ls!!0)) (Set.map (\(s,r,st) -> (beta s, beta r, beta st)) (ls!!1)) cSet
+                                    merged = normalizeLS (m + n - 2 * l) $ findLS (Set.map (\(s,r,st) -> (alpha s, alpha r, alpha st)) (ls!!0)) (Set.map (\(s,r,st) -> (beta s, beta r, beta st)) (ls!!1)) cSet
                                     rest = (drop 2 ls)
                                     in assert valid $
                                        (lstoch2 (merge struct 1 2) (merged:rest))
