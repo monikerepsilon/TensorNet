@@ -32,15 +32,29 @@ stochLists = [(stochList [ [[]], [[1]] ]),
               (stochList [ [[]], [[1]], [[1,2]], [[3]], [[]], [[]], [[1]], [[1]], [[1]], [[1]], [[1]] ] )]
               
 stochs = map (\(p, sl) -> stochToLStoch p sl) (zip ptns stochLists)
-caseNum = 11
-testCases = (zip3 (permutations [1..(getTNn (ptns!!caseNum) )]) (permuteTN (ptns!!caseNum)) (permutations (stochs!!caseNum)))
+caseNum = 9
+allPerms = (permutations [1..(getTNn (ptns!!caseNum) )])
+testCases = (zip3 allPerms (permuteTN (ptns!!caseNum)) (permutations (stochs!!caseNum)))
 
 getTNn (TN n a s e) = n
 
-runTest (perm, p, ls) = traceShow perm (lstoch2 p ls)
+runTest :: ([Int], TN, [Set.Set (Set.Set Int, Set.Set Int, Set.Set Int)]) -> Set.Set (Set.Set Int, Set.Set Int, Set.Set Int)
+runTest (perm, p, ls) = permuteLS perm (lstoch2 p ls)
+
+permuteLS :: [Int] -> Set.Set (Set.Set Int, Set.Set Int, Set.Set Int) -> Set.Set (Set.Set Int, Set.Set Int, Set.Set Int)
+permuteLS perm ls = Set.map (\(s,r,st) -> 
+                      let s' = s
+                          r' = r
+                          st' = st
+                      in (s',r',st'))
+                    ls
 
 main :: IO ()
 main = do assert (tn (TN 1 [1] [[5]] (Set.fromList []))) $ return []
           --mapM (putStrLn . show . (\(p, ls) -> lstoch p ls)) (zip ptns stochs)
-          mapM (putStrLn . show . runTest) testCases
-          putStrLn "All tests succeeded"
+          let results = map (runTest) testCases
+              expected = (lstoch2 (ptns!!caseNum) (stochs!!caseNum))
+                in do putStrLn ("Expected: " ++ (show expected))
+                      if all (== expected) results
+                      then putStrLn "All tests succeeded"
+                      else mapM_ (putStrLn) (["Something failed: "] ++ [(show (allPerms!!i)) ++ "\n" ++ (show (results!!i)) | i <- [0..((length allPerms)-1)], expected /= (results!!i)])
